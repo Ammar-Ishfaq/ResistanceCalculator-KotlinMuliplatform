@@ -1,7 +1,7 @@
-package com.jetbrains.kmpapp
+package com.ammar.resistorassistant
 
 import android.app.Application
-import com.jetbrains.kmpapp.di.initKoin
+import com.ammar.resistorassistant.di.initKoin
 
 class MuseumApp : Application() {
     override fun onCreate() {

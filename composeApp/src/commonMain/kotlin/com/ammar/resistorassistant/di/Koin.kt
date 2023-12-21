@@ -1,12 +1,12 @@
-package com.jetbrains.kmpapp.di
+package com.ammar.resistorassistant.di
 
-import com.jetbrains.kmpapp.data.InMemoryMuseumStorage
-import com.jetbrains.kmpapp.data.KtorMuseumApi
-import com.jetbrains.kmpapp.data.MuseumApi
-import com.jetbrains.kmpapp.data.MuseumRepository
-import com.jetbrains.kmpapp.data.MuseumStorage
-import com.jetbrains.kmpapp.screens.detail.DetailScreenModel
-import com.jetbrains.kmpapp.screens.list.ListScreenModel
+import com.ammar.resistorassistant.data.InMemoryMuseumStorage
+import com.ammar.resistorassistant.data.KtorMuseumApi
+import com.ammar.resistorassistant.data.MuseumApi
+import com.ammar.resistorassistant.data.MuseumRepository
+import com.ammar.resistorassistant.data.MuseumStorage
+import com.ammar.resistorassistant.screens.detail.DetailScreenModel
+import com.ammar.resistorassistant.screens.list.ListScreenModel
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.http.ContentType

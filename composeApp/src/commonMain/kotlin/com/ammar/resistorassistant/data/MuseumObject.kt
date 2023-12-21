@@ -1,4 +1,4 @@
-package com.jetbrains.kmpapp.data
+package com.ammar.resistorassistant.data
 
 import kotlinx.serialization.Serializable
 

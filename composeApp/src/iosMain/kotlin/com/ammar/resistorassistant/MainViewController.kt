@@ -1,4 +1,4 @@
-package com.jetbrains.kmpapp
+package com.ammar.resistorassistant
 
 import androidx.compose.ui.window.ComposeUIViewController
 

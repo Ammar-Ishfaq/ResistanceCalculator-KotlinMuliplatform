@@ -12,4 +12,5 @@
     <string name="back">Back</string>
 
     <string name="no_data_available">No data available</string>
+    <string name="splash_screen_text">Resistance Assistance</string>
 </resources>

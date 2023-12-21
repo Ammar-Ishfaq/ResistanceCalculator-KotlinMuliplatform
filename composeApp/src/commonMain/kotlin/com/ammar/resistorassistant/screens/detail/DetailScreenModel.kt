@@ -1,8 +1,8 @@
-package com.jetbrains.kmpapp.screens.detail
+package com.ammar.resistorassistant.screens.detail
 
 import cafe.adriel.voyager.core.model.ScreenModel
-import com.jetbrains.kmpapp.data.MuseumObject
-import com.jetbrains.kmpapp.data.MuseumRepository
+import com.ammar.resistorassistant.data.MuseumObject
+import com.ammar.resistorassistant.data.MuseumRepository
 import kotlinx.coroutines.flow.Flow
 
 class DetailScreenModel(private val museumRepository: MuseumRepository) : ScreenModel {

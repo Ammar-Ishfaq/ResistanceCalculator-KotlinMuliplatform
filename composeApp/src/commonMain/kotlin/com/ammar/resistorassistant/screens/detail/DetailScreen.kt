@@ -1,4 +1,4 @@
-package com.jetbrains.kmpapp.screens.detail
+package com.ammar.resistorassistant.screens.detail
 
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
@@ -34,9 +34,9 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
-import com.jetbrains.kmpapp.MR
-import com.jetbrains.kmpapp.data.MuseumObject
-import com.jetbrains.kmpapp.screens.EmptyScreenContent
+import com.ammar.resistorassistant.MR
+import com.ammar.resistorassistant.data.MuseumObject
+import com.ammar.resistorassistant.screens.EmptyScreenContent
 import dev.icerock.moko.resources.compose.stringResource
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
