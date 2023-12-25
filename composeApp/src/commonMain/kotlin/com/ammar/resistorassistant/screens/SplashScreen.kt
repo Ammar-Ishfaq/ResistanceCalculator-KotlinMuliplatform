@@ -20,22 +20,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.key.Key.Companion.R
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.ammar.resistorassistant.MR
-import com.ammar.resistorassistant.screens.list.ListScreen
-import dev.icerock.moko.resources.ImageResource
 import dev.icerock.moko.resources.compose.painterResource
 import dev.icerock.moko.resources.compose.stringResource
-import dev.icerock.moko.resources.getAssetByFilePath
 import kotlinx.coroutines.delay
 
 data object SplashScreen : Screen {
@@ -50,7 +43,7 @@ data object SplashScreen : Screen {
         // Delay for 5 seconds and navigate to ListScreen
         LaunchedEffect(key1 = navigateToListScreen) {
             delay(5000) // 5000 milliseconds = 5 seconds
-            navigator.push(ListScreen)
+            navigator.push(ResistanceCalculator)
         }
     }
 }
