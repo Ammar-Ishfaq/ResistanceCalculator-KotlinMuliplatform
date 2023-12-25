@@ -104,6 +104,9 @@ android {
         debugImplementation(libs.compose.ui.tooling)
     }
 }
+dependencies {
+    implementation(libs.androidx.ui.tooling.preview.android)
+}
 
 multiplatformResources {
     multiplatformResourcesPackage = "com.ammar.resistorassistant"
