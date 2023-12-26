@@ -1,19 +1,13 @@
-# Kotlin Multiplatform app template
+# Resistance Calculator (Kotlin Multiplatform App)
 
 [![official project](http://jb.gg/badges/official.svg)](https://confluence.jetbrains.com/display/ALL/JetBrains+on+GitHub)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-This is a basic Kotlin Multiplatform app template for Android and iOS. It includes shared business logic and data handling, and a shared UI implementation using Compose Multiplatform.
-
-> The template is also available [with native UI written in Jetpack Compose and SwiftUI](https://github.com/kotlin/KMP-App-Template-Native).
->
-> The [`amper` branch](https://github.com/Kotlin/KMP-App-Template/tree/amper) showcases the same project configured with [Amper](https://github.com/JetBrains/amper).
-
-![Screenshots of the app](images/screenshots.png)
+This is a basic Kotlin Multiplatform Resistance calculator app for Android and iOS. It includes shared business logic and data handling, and a shared UI implementation using Compose Multiplatform.
 
 ### Technologies
 
-The data displayed by the app is from [The Metropolitan Museum of Art Collection API](https://metmuseum.github.io/).
+The resistor calculator done by the app is from [RESISTOR COLOR CODE GUIDE](https://neurophysics.ucsd.edu/courses/physics_120/resistorcharts.pdf).
 
 The app uses the following multiplatform dependencies in its implementation:
 
