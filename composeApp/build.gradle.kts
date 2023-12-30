@@ -106,6 +106,8 @@ android {
 }
 dependencies {
     implementation(libs.androidx.ui.tooling.preview.android)
+    implementation(libs.androidx.core)
+
 }
 
 multiplatformResources {

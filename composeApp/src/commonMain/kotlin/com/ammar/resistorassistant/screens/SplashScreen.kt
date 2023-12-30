@@ -19,7 +19,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -27,6 +26,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.ammar.resistorassistant.MR
+import dev.icerock.moko.resources.compose.colorResource
 import dev.icerock.moko.resources.compose.painterResource
 import dev.icerock.moko.resources.compose.stringResource
 import kotlinx.coroutines.delay
@@ -42,7 +42,7 @@ data object SplashScreen : Screen {
 
         // Delay for 5 seconds and navigate to ListScreen
         LaunchedEffect(key1 = navigateToListScreen) {
-            delay(5000) // 5000 milliseconds = 5 seconds
+            delay(1000) // 5000 milliseconds = 5 seconds
             navigator.push(ResistanceCalculator)
         }
     }
@@ -51,9 +51,9 @@ data object SplashScreen : Screen {
 
 @Composable
 fun SplashScreen() {
-    val backgroundColor = Color(0xFFEAEAEA) // Light gray background color
-    val textColor = Color(0xFF333333) // Dark text color
-    val imageColor = Color(0xFF007ACC) // Blue image color
+    val backgroundColor = colorResource(MR.colors.background_color)
+    val textColor = colorResource(MR.colors.text_color)
+    val imageColor = colorResource(MR.colors.image_color)
 
     Box(
         modifier = Modifier
@@ -92,8 +92,8 @@ fun SplashScreen() {
     }
 }
 
-//@Preview
 @Composable
+//@Preview()
 fun SplashScreenPreview() {
     SplashScreen()
 }

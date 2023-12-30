@@ -1,4 +1,4 @@
-rootProject.name = "KMP-App-Template"
+rootProject.name = "KMP-App-ResistorCalculator"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
