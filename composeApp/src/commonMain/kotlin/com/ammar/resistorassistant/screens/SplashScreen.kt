@@ -26,6 +26,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.ammar.resistorassistant.MR
+import com.ammar.resistorassistant.extension.toCR
 import dev.icerock.moko.resources.compose.colorResource
 import dev.icerock.moko.resources.compose.painterResource
 import dev.icerock.moko.resources.compose.stringResource
@@ -42,7 +43,7 @@ data object SplashScreen : Screen {
 
         // Delay for 5 seconds and navigate to ListScreen
         LaunchedEffect(key1 = navigateToListScreen) {
-            delay(1000) // 5000 milliseconds = 5 seconds
+            delay(5000) // 5000 milliseconds = 5 seconds
             navigator.push(ResistanceCalculator)
         }
     }
@@ -51,14 +52,10 @@ data object SplashScreen : Screen {
 
 @Composable
 fun SplashScreen() {
-    val backgroundColor = colorResource(MR.colors.background_color)
-    val textColor = colorResource(MR.colors.text_color)
-    val imageColor = colorResource(MR.colors.image_color)
-
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(backgroundColor),
+            .background(MR.colors.background_color.toCR()),
         contentAlignment = Alignment.Center
     ) {
         Column(
@@ -74,7 +71,7 @@ fun SplashScreen() {
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(120.dp)
-                    .background(imageColor)
+                    .background(MR.colors.image_color.toCR())
                     .padding(16.dp)
                     .clip(MaterialTheme.shapes.medium)
             )
@@ -82,7 +79,7 @@ fun SplashScreen() {
             // Your splash screen text
             Text(
                 text = stringResource(MR.strings.splash_screen_text),
-                style = MaterialTheme.typography.h5.copy(color = textColor),
+                style = MaterialTheme.typography.h5.copy(color = MR.colors.text_color.toCR()),
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxWidth()
