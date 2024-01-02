@@ -14,16 +14,18 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.ArrowDropDown
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -42,22 +44,21 @@ import cafe.adriel.voyager.core.screen.Screen
 import com.ammar.resistorassistant.MR
 import com.ammar.resistorassistant.extension.toCR
 import com.ammar.resistorassistant.extension.toComposeColor
-import dev.icerock.moko.graphics.parseColor
-import dev.icerock.moko.graphics.Color as MokoColor
 
 data object ResistanceCalculator : Screen {
     @Composable
     override fun Content() {
         var selectedScreen by remember { mutableStateOf<ScreenType>(ScreenType.HOME) }
 
-        val isHome= selectedScreen == ScreenType.HOME
+        val isHome = selectedScreen == ScreenType.HOME
         Box(modifier = Modifier.fillMaxSize()) {
             Column {
                 // Title header
                 Text(
-                    text = if(isHome)"Resistance Calculate" else "Menu", // Replace with your desired title
+                    text = if (isHome) "Resistance Calculate" else "Menu", // Replace with your desired title
                     style = MaterialTheme.typography.h4,
-                    modifier = Modifier.padding(16.dp)
+                    modifier = Modifier.fillMaxWidth()
+                        .background(color = MR.colors.background_color.toCR())
                 )
 
                 // Black box with padding
@@ -70,8 +71,9 @@ data object ResistanceCalculator : Screen {
                     // Content for the box (e.g., screen-specific content)
                     when (selectedScreen) {
                         ScreenType.HOME -> {
-                            Text("HomeScreen Content")
+                            HomeScreenContent()
                         }
+
                         ScreenType.MORE -> {
                             Text("MoreScreen Content")
                         }
@@ -269,3 +271,83 @@ fun ResistanceColorIndicator(color: String?) {
     }
 }
 
+
+@Composable
+fun HomeScreenContent() {
+    Box {
+        BandSelectionMenu {
+
+        }
+
+    }
+}
+
+@Composable
+fun BandSelectionMenu(onSelectBand: (Int) -> Unit) {
+    var expanded by remember { mutableStateOf(false) }
+    var selectedBand by remember { mutableStateOf("Select Bands") }
+
+    val resistorBands = listOf(4, 5, 6)
+    Box(
+        modifier = Modifier
+            .padding(8.dp)
+            .width(200.dp) // Adjust the width as needed
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { expanded = true }
+                .clip(CircleShape)
+                .background(Color.Gray)
+                .padding(8.dp)
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = selectedBand,
+                    modifier = Modifier.padding(4.dp),
+                    color = Color.White
+                )
+
+                Icon(
+                    imageVector = Icons.Default.ArrowDropDown,
+                    contentDescription = null,
+                    tint = Color.White
+                )
+            }
+        }
+
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false },
+            modifier = Modifier
+                .background(Color.Gray)
+                .padding(8.dp)
+        ) {
+            Column(
+                modifier = Modifier
+                    .background(Color.Gray)
+                    .padding(8.dp)
+            ) {
+                resistorBands.forEach { band ->
+                    DropdownMenuItem(
+                        onClick = {
+                            selectedBand = "$band Bands"
+                            onSelectBand.invoke(band)
+                            expanded = false
+                        }
+                    ) {
+                        Text(
+                            text = "$band Bands",
+                            modifier = Modifier.padding(8.dp),
+                            color = Color.White
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
