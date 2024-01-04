@@ -34,6 +34,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
@@ -44,6 +45,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import com.ammar.resistorassistant.MR
 import com.ammar.resistorassistant.extension.toCR
 import com.ammar.resistorassistant.extension.toComposeColor
+import com.ammar.resistorassistant.screens.band.FourBandResistorCalculator
 
 data object ResistanceCalculator : Screen {
     @Composable
@@ -272,11 +274,19 @@ fun ResistanceColorIndicator(color: String?) {
 }
 
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun HomeScreenContent() {
-    Box {
-        BandSelectionMenu {
+    var selectedBand by remember { mutableStateOf(4) }
 
+    Column {
+        BandSelectionMenu { selectedBands ->
+            selectedBand = selectedBands
+        }
+        when (selectedBand) {
+            4 -> {
+                FourBandResistorCalculator()
+            }
         }
 
     }
