@@ -28,7 +28,7 @@ jobs:
         run: ./gradlew build
 
       - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v3.2.0
+        uses: actions/upload-artifact@v3.1.3
         with:
           name: ResistorCalculator-KMP.apk
           path: app/build/outputs/apk/debug/app-debug.apk
