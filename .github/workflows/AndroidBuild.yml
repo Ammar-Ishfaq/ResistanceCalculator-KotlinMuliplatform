@@ -1,0 +1,28 @@
+name: AndroidBuild
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.0
+
+      - name: Setup Java SDK
+        uses: actions/setup-java@v3.13.0
+
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      - name: Upload a Build Artifact
+        run: actions/upload-artifact@v3.1.3
+        with:
+          name: ResistorCalculator-KMP.apk
+          path: app/build/outputs/apk/app-debug.apk
