@@ -31,7 +31,7 @@ jobs:
         uses: actions/upload-artifact@v3.1.3
         with:
           name: ResistorCalculator-KMP.apk
-          path: release/app-debug.apk
+          path: release/composeApp-debug.apk
 
 
 #  iosBuild:
