@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  build:
+  androidBuild:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -24,8 +24,8 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-      - name: Build with Gradle
-        run: ./gradlew build
+      - name: Build Android with Gradle
+        run: ./gradlew :app:assembleDebug
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.3
