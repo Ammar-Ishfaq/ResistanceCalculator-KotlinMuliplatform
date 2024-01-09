@@ -1,0 +1,1 @@
+This directory is being used for the releases to be there on github CI/CD build
