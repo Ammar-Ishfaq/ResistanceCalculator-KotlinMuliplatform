@@ -33,43 +33,26 @@ jobs:
           name: ResistorCalculator-KMP.apk
           path: composeApp/build/outputs/apk/debug/composeApp-debug.apk
 
-  createTag:
+  createRelease:
     needs: androidBuild
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4.1.0
 
-      - name: Change to Project Directory
-        run: cd composeApp
-
       - name: Set Git Identity
         run: |
           git config user.name "GitHub Actions"
           git config user.email "actions@github.com"
 
-      - name: Create Version Tag
-        run: |
-          RUN_NUMBER=${{ github.run_number }}
-          if [ $((RUN_NUMBER % 2)) -eq 0 ]; then
-            VERSION="v${RUN_NUMBER}"
-          else
-            VERSION="${RUN_NUMBER}"
-          fi
-          git tag -a $VERSION -m "Version $VERSION"
-          git push origin $VERSION
+      - name: Determine Version
+        id: determine_version
+        run: echo "::set-output name=version::$(date +'%Y%m%d%H%M%S')"
 
-  release:
-    needs: createTag
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4.1.0
-
-      - name: Upload binaries to release
+      - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
           files: composeApp/build/outputs/apk/debug/composeApp-debug.apk
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          tag: v${{ github.run_number }}
-          title: Release v${{ github.run_number }}
+          tag: ${{ steps.determine_version.outputs.version }}
+          title: Release ${{ steps.determine_version.outputs.version }}
