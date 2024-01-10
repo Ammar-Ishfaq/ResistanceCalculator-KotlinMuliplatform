@@ -53,12 +53,14 @@ jobs:
         run: git tag -a temp-${{ steps.determine_version.outputs.version }} -m "Temporary Tag"
 
       - name: Push Temporary Tag
-        run: git push origin temp-${{ steps.determine_version.outputs.version }}
+        run: |
+          git push origin temp-${{ steps.determine_version.outputs.version }} --tags --quiet -u ${{ secrets.ACCESSTOKEN }}
+          echo "Pushed the temporary tag"
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
           files: composeApp/build/outputs/apk/debug/composeApp-debug.apk
-          repo_token: ${{ secrets.ACCESS_TOKEN }}
+          repo_token: ${{ secrets.ACCESSTOKEN }}
           tag: temp-${{ steps.determine_version.outputs.version }}
           title: Release ${{ steps.determine_version.outputs.version }}
