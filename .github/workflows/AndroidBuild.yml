@@ -37,6 +37,12 @@ jobs:
     needs: androidBuild
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4.1.0
+
+      - name: Change to Project Directory
+        run: cd composeApp
+
       - name: Set Git Identity
         run: |
           git config user.name "GitHub Actions"
