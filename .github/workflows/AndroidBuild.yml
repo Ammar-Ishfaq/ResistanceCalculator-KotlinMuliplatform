@@ -49,10 +49,16 @@ jobs:
         id: determine_version
         run: echo "::set-output name=version::$(date +'%Y%m%d%H%M%S')"
 
+      - name: Create Temporary Tag
+        run: git tag -a temp-${{ steps.determine_version.outputs.version }} -m "Temporary Tag"
+
+      - name: Push Temporary Tag
+        run: git push origin temp-${{ steps.determine_version.outputs.version }}
+
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
           files: composeApp/build/outputs/apk/debug/composeApp-debug.apk
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ steps.determine_version.outputs.version }}
+          tag: temp-${{ steps.determine_version.outputs.version }}
           title: Release ${{ steps.determine_version.outputs.version }}
