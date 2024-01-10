@@ -59,6 +59,6 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: composeApp/build/outputs/apk/debug/composeApp-debug.apk
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          repo_token: ${{ secrets.ACCESS_TOKEN }}
           tag: temp-${{ steps.determine_version.outputs.version }}
           title: Release ${{ steps.determine_version.outputs.version }}
