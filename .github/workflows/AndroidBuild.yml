@@ -33,6 +33,13 @@ jobs:
           name: ResistorCalculator-KMP.apk
           path: composeApp/build/outputs/apk/debug/composeApp-debug.apk
 
+      - name: Upload binaries to release
+        uses: softprops/action-gh-release@v1
+        with:
+           files: composeApp/build/outputs/apk/debug/composeApp-debug.apk
+           repo_token: ${{ secrets.GITHUB_TOKEN }}
+           tag: v${{ github.run_number }}
+           title: Release v${{ github.run_number }}
 
 #  iosBuild:
 #    runs-on: macos-latest
