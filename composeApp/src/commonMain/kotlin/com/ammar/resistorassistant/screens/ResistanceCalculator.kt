@@ -45,8 +45,8 @@ data object ResistanceCalculator : Screen {
         val navigator = LocalNavigator.currentOrThrow
         val objects by screenModel.objects.collectAsState()
 
-
         var selectedScreen by remember { mutableStateOf(ScreenType.HOME) }
+
 
         val isHome = selectedScreen == ScreenType.HOME
         Box(modifier = Modifier.fillMaxSize()) {
