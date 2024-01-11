@@ -12,5 +12,7 @@
     <string name="back">Back</string>
 
     <string name="no_data_available">No data available</string>
-    <string name="splash_screen_text">Resistance Assistance</string>
+    <string name="splash_screen_text">Resistance Calculator</string>
+    <string name="select_band_type">Choose Band Type</string>
+    <string name="calculate_resistance">Calculate Resistance</string>
 </resources>

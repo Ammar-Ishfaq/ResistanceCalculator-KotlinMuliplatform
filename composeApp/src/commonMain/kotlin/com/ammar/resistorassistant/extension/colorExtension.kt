@@ -28,3 +28,18 @@ fun convertToComposeColor(mokoColor: dev.icerock.moko.graphics.Color): Color {
         alpha = mokoColor.alpha / 255f
     )
 }
+
+fun String.toUnComposeColor(): Color {
+    val hexColor = this
+    val mokoColor = dev.icerock.moko.graphics.Color.parseColor(hexColor)
+    return convertToUnComposeColor(mokoColor)
+}
+
+fun convertToUnComposeColor(mokoColor: dev.icerock.moko.graphics.Color): Color {
+    return Color(
+        red = mokoColor.red / 255f,
+        green = mokoColor.green / 255f,
+        blue = mokoColor.blue / 255f,
+        alpha = mokoColor.alpha / 255f
+    )
+}
