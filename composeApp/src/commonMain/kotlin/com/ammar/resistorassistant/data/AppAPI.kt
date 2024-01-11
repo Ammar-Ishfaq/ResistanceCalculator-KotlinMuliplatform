@@ -12,7 +12,7 @@ interface AppAPI {
 class KtorAppAPI(private val client: HttpClient) : AppAPI {
     companion object {
         private const val API_URL =
-            "https://raw.githubusercontent.com/Ammar-Ishfaq/ResistanceCalculator/guideScreen/ResistanceGuide.json?token=GHSAT0AAAAAACIEJLUKUYLVG7WN6XKJHGMSZM7XQJA"
+            "https://raw.githubusercontent.com/Ammar-Ishfaq/ResistanceCalculator/guideScreen/ResistanceGuide.json?token=GHSAT0AAAAAACIEJLUL3TFGABEEAM4VDZDUZM7Z4RQ"
     }
 
     override suspend fun getResistorData(): List<ResistorObject> {

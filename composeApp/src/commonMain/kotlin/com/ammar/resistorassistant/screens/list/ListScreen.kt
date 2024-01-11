@@ -100,7 +100,7 @@ private fun ObjectFrame(
                 .background(Color.LightGray),
         )
 
-        Spacer(Modifier.height(2.dp))=
+        Spacer(Modifier.height(2.dp))
         Text(obj.name, style = MaterialTheme.typography.subtitle1.copy(fontWeight = FontWeight.Bold))
     }
 }

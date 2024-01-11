@@ -90,10 +90,13 @@ private fun ObjectDetails(
 
             SelectionContainer {
                 Column(Modifier.padding(12.dp)) {
-                    Text(obj.name, style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Bold))
+                    Text(
+                        obj.name,
+                        style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Bold)
+                    )
                     Spacer(Modifier.height(6.dp))
                     LabeledInfo(stringResource(MR.strings.label_title), obj.name)
-                    LabeledInfo(stringResource(MR.strings.label_artist), obj.description)
+                    LabeledInfo(stringResource(MR.strings.label_description), obj.description)
 
                 }
             }
@@ -119,3 +122,4 @@ private fun LabeledInfo(
         )
     }
 }
+
