@@ -11,7 +11,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -40,7 +40,7 @@ data object ResistanceCalculator : Screen {
             Column {
                 // Title header
                 Text(
-                    text = if (isHome) "Res Calculate" else "Menu", // Replace with your desired title
+                    text = if (isHome) "Res Calculate" else "Guide", // Replace with your desired title
                     style = MaterialTheme.typography.h4,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.fillMaxWidth()
@@ -60,8 +60,8 @@ data object ResistanceCalculator : Screen {
                             HomeScreenContent()
                         }
 
-                        ScreenType.MORE -> {
-                            Text("MoreScreen Content")
+                        ScreenType.GUIDE -> {
+
                         }
                     }
                 }
@@ -91,7 +91,7 @@ fun BottomNavigationBar(
 ) {
     val items = listOf(
         BottomNavItem("Home", Icons.Default.Home, ScreenType.HOME),
-        BottomNavItem("More", Icons.Default.Menu, ScreenType.MORE)
+        BottomNavItem("More", Icons.Default.Info, ScreenType.GUIDE)
     )
 
     Row(
@@ -144,7 +144,12 @@ fun BottomNavItemButton(modifier: Modifier, item: BottomNavItem) {
 data class BottomNavItem(val title: String, val icon: ImageVector, val screenType: ScreenType)
 enum class ScreenType {
     HOME,
-    MORE
+    GUIDE
+}
+
+@Composable
+fun  GuideScreenContent(){
+
 }
 @Composable
 fun HomeScreenContent() {
