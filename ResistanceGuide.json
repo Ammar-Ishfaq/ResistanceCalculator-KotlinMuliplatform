@@ -1,15 +1,18 @@
 [
     {
+        "id":0,
       "name": "4-band",
       "image": "https://lastminuteengineers.com/wp-content/uploads/calc/5-Band-Resistor-Color-Code-System.png",
       "description": "<h4>Overview:</h4><p>4-band resistors are identified by four colored bands that convey essential information about their resistance value.</p><h4>Details:</h4><ul><li>First Significant Digit: Represents the first significant digit of the resistance value.</li><li>Second Significant Digit: Represents the second significant digit of the resistance value.</li><li>Multiplier: Indicates the multiplier, i.e., the number of zeros to append to the significant digits.</li><li>Tolerance: Represents the tolerance of the resistor, indicating the acceptable range of the resistance value.</li></ul><h4>Calculation:</h4><p>Combine the values of the first two bands, multiply by the multiplier, and apply the tolerance.</p><h4>Benefits:</h4><p>The 4-band resistor coding system is simple and commonly used.</p>"
     },
     {
+        "id":1,
       "name": "5-band",
       "image": "https://lastminuteengineers.com/wp-content/uploads/calc/5-Band-Resistor-Color-Code-System.png",
       "description": "<h4>Overview:</h4><p>5-band resistors provide more precision than 4-band resistors by adding an extra digit to the resistance value.</p><h4>Details:</h4><ul><li>First Significant Digit: Represents the first significant digit of the resistance value.</li><li>Second Significant Digit: Represents the second significant digit of the resistance value.</li><li>Third Significant Digit: Represents the third significant digit of the resistance value.</li><li>Multiplier: Indicates the multiplier, i.e., the number of zeros to append to the significant digits.</li><li>Tolerance: Represents the tolerance of the resistor, indicating the acceptable range of the resistance value.</li></ul><h4>Calculation:</h4><p>Combine the values of the first three bands, multiply by the multiplier, and apply the tolerance.</p><h4>Benefits:</h4><p>The 5-band system allows for more precise representation of resistor values.</p>"
     },
     {
+        "id":2,
       "name": "4-band",
       "image": "https://lastminuteengineers.com/wp-content/uploads/calc/5-Band-Resistor-Color-Code-System.png",
       "description": "<h4>Overview:</h4><p>4-band resistors are identified by four colored bands that convey essential information about their resistance value.</p><h4>Details:</h4><ul><li>First Significant Digit: Represents the first significant digit of the resistance value.</li><li>Second Significant Digit: Represents the second significant digit of the resistance value.</li><li>Multiplier: Indicates the multiplier, i.e., the number of zeros to append to the significant digits.</li><li>Tolerance: Represents the tolerance of the resistor, indicating the acceptable range of the resistance value.</li></ul><h4>Calculation:</h4><p>Combine the values of the first two bands, multiply by the multiplier, and apply the tolerance.</p><h4>Benefits:</h4><p>The 4-band resistor coding system is simple and commonly used.</p>"
