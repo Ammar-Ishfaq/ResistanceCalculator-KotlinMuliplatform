@@ -1,6 +1,8 @@
 package com.ammar.resistorassistant.screens
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Arrangement.Absolute.Center
@@ -16,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
@@ -38,27 +41,39 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.CornerRadius
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.semantics.SemanticsProperties.Heading
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import com.ammar.resistorassistant.MR
 import com.ammar.resistorassistant.extension.toCR
 import com.ammar.resistorassistant.extension.toComposeColor
+import com.ammar.resistorassistant.screens.band.FiveBandResistorCalculator
 import com.ammar.resistorassistant.screens.band.FourBandResistorCalculator
+import com.ammar.resistorassistant.screens.band.SixBandResistorCalculator
+import dev.icerock.moko.resources.compose.stringResource
 
 data object ResistanceCalculator : Screen {
     @Composable
     override fun Content() {
-        var selectedScreen by remember { mutableStateOf<ScreenType>(ScreenType.HOME) }
+        var selectedScreen by remember { mutableStateOf(ScreenType.HOME) }
 
         val isHome = selectedScreen == ScreenType.HOME
         Box(modifier = Modifier.fillMaxSize()) {
             Column {
                 // Title header
                 Text(
-                    text = if (isHome) "Resistance Calculate" else "Menu", // Replace with your desired title
+                    text = if (isHome) "Res Calculate" else "Menu", // Replace with your desired title
                     style = MaterialTheme.typography.h4,
+                    fontWeight = FontWeight.Bold,
                     modifier = Modifier.fillMaxWidth()
                         .background(color = MR.colors.background_color.toCR())
                 )
@@ -162,132 +177,58 @@ enum class ScreenType {
     HOME,
     MORE
 }
-
-@Composable
-fun ColorSelectionDropdown(
-    onColorSelected: (String) -> Unit
-) {
-    var expanded by remember { mutableStateOf(false) }
-    var selectedColor by remember { mutableStateOf<String?>(null) }
-
-    // Actual resistor colors
-    val resistorColors = listOf(
-        "#000000", // Black
-        "#8B4513", // Brown
-        "#FF0000", // Red
-        "#FFA500", // Orange
-        "#FFFF00", // Yellow
-        "#008000", // Green
-        "#0000FF", // Blue
-        "#800080", // Violet
-        "#808080", // Gray
-        "#FFFFFF"  // White
-    )
-
-    Column(
-        modifier = Modifier
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        // Dropdown for selecting resistor color
-        Row(
-            modifier = Modifier
-                .background(Color.Black)
-                .clickable { expanded = !expanded }
-                .padding(8.dp)
-        ) {
-            Text(
-                text = selectedColor?.let { "Selected Color: $it" } ?: "Select Resistor Color",
-                color = Color.White
-            )
-            Icon(
-                imageVector = Icons.Outlined.ArrowDropDown,
-                contentDescription = null,
-                tint = Color.White
-            )
-        }
-
-        // Dropdown content based on the selected band count
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-            modifier = Modifier.padding(8.dp)
-        ) {
-            resistorColors.forEach { color ->
-                DropdownMenuItem(
-                    onClick = {
-                        selectedColor = color
-                        onColorSelected(color)
-                        expanded = false
-                    }
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .background(color.toComposeColor())
-                            .size(24.dp)
-                            .padding(4.dp)
-                            .clip(CircleShape)
-                    )
-                }
-            }
-        }
-
-    }
-}
-
-@Composable
-fun ResistanceCalculator(selectedBandCount: Int) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-
-        for (i in 0..selectedBandCount) {
-            ColorSelectionDropdown(
-                onColorSelected = {
-                }
-            )
-        }
-
-//        Spacer(modifier = Modifier.height(16.dp))
-//
-//        ResistanceColorIndicator(selectedColor)
-    }
-}
-
-@Composable
-fun ResistanceColorIndicator(color: String?) {
-    Box(
-        modifier = Modifier
-            .background(Color.Black)
-            .padding(8.dp)
-    ) {
-        Text(
-            text = color?.let { "Selected Color: $it" } ?: "No Color Selected",
-            color = Color.White
-        )
-    }
-}
-
-
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun HomeScreenContent() {
     var selectedBand by remember { mutableStateOf(4) }
 
     Column {
-        BandSelectionMenu { selectedBands ->
-            selectedBand = selectedBands
-        }
-        when (selectedBand) {
-            4 -> {
-                FourBandResistorCalculator()
+
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+                .border(2.dp, Color.Black, shape = RoundedCornerShape(8.dp))
+        ) {
+            Text(
+                text = stringResource(MR.strings.select_band_type),
+                color = Color.Black,
+                style = MaterialTheme.typography.h5,
+                fontWeight = FontWeight.Thin,
+                modifier = Modifier.padding(8.dp)
+            )
+
+            BandSelectionMenu { selectedBands ->
+                selectedBand = selectedBands
             }
         }
+
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+                .border(2.dp, Color.Black, shape = RoundedCornerShape(8.dp))
+        ) {
+            Text(
+                text = stringResource(MR.strings.calculate_resistance),
+                color = Color.Black,
+                style = MaterialTheme.typography.h5,
+                fontWeight = FontWeight.Thin,
+                modifier = Modifier.padding(8.dp)
+            )
+            when (selectedBand) {
+                4 -> {
+                    FourBandResistorCalculator()
+                }
+                5->{
+                    FiveBandResistorCalculator()
+                }
+                6->{
+                    SixBandResistorCalculator()
+                }
+            }
+        }
+
 
     }
 }
@@ -295,7 +236,7 @@ fun HomeScreenContent() {
 @Composable
 fun BandSelectionMenu(onSelectBand: (Int) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
-    var selectedBand by remember { mutableStateOf("Select Bands") }
+    var selectedBand by remember { mutableStateOf("4 Bands") }
 
     val resistorBands = listOf(4, 5, 6)
     Box(
@@ -307,7 +248,7 @@ fun BandSelectionMenu(onSelectBand: (Int) -> Unit) {
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable { expanded = true }
-                .clip(CircleShape)
+//                .clip(CircleShape)
                 .background(Color.Gray)
                 .padding(8.dp)
         ) {

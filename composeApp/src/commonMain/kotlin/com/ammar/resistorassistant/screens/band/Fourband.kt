@@ -1,72 +1,69 @@
 package com.ammar.resistorassistant.screens.band
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.CornerRadius
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.*
-import androidx.compose.ui.graphics.drawscope.DrawScope
-import androidx.compose.ui.graphics.drawscope.Fill
-import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.ammar.resistorassistant.extension.toComposeColor
-import com.ammar.resistorassistant.extension.toUnComposeColor
 import kotlin.math.pow
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun FourBandResistorCalculator() {
     var band1 by remember { mutableStateOf("#8B4513") } // Brown
     var band2 by remember { mutableStateOf("#000000") } // Black
-    var band3 by remember { mutableStateOf("#FF0000") } // Red
-    var band4 by remember { mutableStateOf("#FFD700") } // Gold
+    var multiplier by remember { mutableStateOf("#FF0000") } // Red
+    var tolerance by remember { mutableStateOf("#808080") } // Grey
+    var resistanceCalculation by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        ResistorView(band1, band2, band3, band4, modifier = Modifier
-            .fillMaxWidth()
-            .height(100.dp)
-            .clickable { /* Handle resistor click if needed */ }
-        )
-
         Spacer(modifier = Modifier.height(16.dp))
 
         ResistorBandInput("Band 1", band1, { band1 = it })
         Spacer(modifier = Modifier.height(8.dp))
         ResistorBandInput("Band 2", band2, { band2 = it })
         Spacer(modifier = Modifier.height(8.dp))
-        ResistorBandInput("Band 3", band3, { band3 = it })
+        ResistorBandInput("Multiplier", multiplier, { multiplier = it })
         Spacer(modifier = Modifier.height(8.dp))
-        ResistorBandInput("Band 4", band4, { band4 = it })
+        ResistorBandInput("Tolerance", tolerance, { tolerance = it })
 
         Spacer(modifier = Modifier.height(16.dp))
-
+        if (resistanceCalculation.isNotEmpty()) Text(resistanceCalculation)
         Button(
             onClick = {
-                // Do something with the resistor values
-                // For example, you can calculate the resistance and tolerance
-                val result = calculateResistorValue(band1, band2, band3, band4)
-                // TODO: Handle the calculated result
+                val result = calculateResistorValue(band1, band2, multiplier, tolerance)
+                print("Ohm Resistance => $result")
+                resistanceCalculation = result
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -75,29 +72,6 @@ fun FourBandResistorCalculator() {
             Text(text = "Calculate Resistance")
         }
     }
-}
-
-@Composable
-fun ResistorView(
-    band1: String,
-    band2: String,
-    band3: String,
-    band4: String,
-    modifier: Modifier = Modifier
-) {
-    Box(
-        modifier = modifier
-            .background(Color.Gray)
-            .padding(16.dp)
-    ) {
-        Canvas(modifier = Modifier.fillMaxSize()) {
-        }
-        Canvas(Modifier.fillMaxSize(), {
-            this.drawResistor(band1, band2, band3, band4)
-        })
-
-    }
-
 }
 
 @Composable
@@ -129,7 +103,14 @@ fun ResistorBandInput(
         modifier = Modifier
             .fillMaxWidth()
     ) {
-        Box(
+        Text(
+            text = label,
+            color = Color.Black,
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold
+        )
+
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable { expanded = true }
@@ -142,7 +123,7 @@ fun ResistorBandInput(
                     )
                 )
                 .background(if (isError) Color(0xFFFFCCCC.toInt()) else Color.Transparent)
-                .padding(16.dp)
+                .padding(top = 8.dp)
         ) {
             Spacer(modifier = Modifier.width(8.dp))
             Box(
@@ -187,51 +168,6 @@ fun ResistorBandInput(
     }
 }
 
-fun DrawScope.drawResistor(band1: String, band2: String, band3: String, band4: String) {
-    val strokeWidth = 8f
-    val cornerRadius = CornerRadius(4.0f)
-    val resistorHeight = size.height / 2
-    val resistorWidth = size.width
-
-    // Draw resistor body
-    drawRoundRect(
-        color = Color.Gray,
-        size = size.copy(height = resistorHeight),
-        cornerRadius = cornerRadius,
-        style = Stroke(strokeWidth)
-    )
-
-    // Draw color bands
-    val bandWidth = size.width / 10
-    drawRoundRect(
-        color = band1.toUnComposeColor(),
-        size = Size(bandWidth, resistorHeight),
-        topLeft = Offset(0f, 0f),
-        style = Fill
-    )
-
-    drawRoundRect(
-        color = band2.toUnComposeColor(),
-        size = Size(bandWidth, resistorHeight),
-        topLeft = Offset(bandWidth, 0f),
-        style = Fill
-    )
-
-    drawRoundRect(
-        color = band3.toUnComposeColor(),
-        size = Size(bandWidth, resistorHeight),
-        topLeft = Offset(bandWidth * 2, 0f),
-        style = Fill
-    )
-
-    drawRoundRect(
-        color = band4.toUnComposeColor(),
-        size = Size(bandWidth, resistorHeight),
-        topLeft = Offset(bandWidth * 3, 0f),
-        style = Fill
-    )
-}
-
 fun getColorName(hexCode: String): String {
     val colorNames = mapOf(
         "#000000" to "Black",
@@ -248,7 +184,7 @@ fun getColorName(hexCode: String): String {
     return colorNames[hexCode] ?: "Unknown"
 }
 
-fun calculateResistorValue(band1: String, band2: String, band3: String, band4: String): String {
+fun calculateResistorValue(band1: String, band2: String, multiplier: String, tolerance: String): String {
     // Define the color code mapping
     val colorCode = mapOf(
         "#000000" to 0, // Black
@@ -266,26 +202,25 @@ fun calculateResistorValue(band1: String, band2: String, band3: String, band4: S
     // Extract digit values from color bands
     val digit1 = colorCode[band1] ?: return "Invalid color: $band1"
     val digit2 = colorCode[band2] ?: return "Invalid color: $band2"
-    val multiplier =
-        10.0.pow(colorCode[band3]?.toDouble() ?: return "Invalid color: $band3")
+    val multiplierValue = 10.0.pow(colorCode[multiplier]?.toDouble() ?: return "Invalid color: $multiplier")
 
     // Calculate resistance value
-    val resistance = (digit1 * 10 + digit2) * multiplier
+    val resistance = (digit1 * 10 + digit2) * multiplierValue
 
-    if (band4.isNotEmpty()) {
+    if (tolerance.isNotEmpty()) {
         // If tolerance band is provided, include tolerance
         val toleranceValues = mapOf(
-            "#8B4513" to 1, // Brown
-            "#FF0000" to 2, // Red
+            "#8B4513" to 1,   // Brown
+            "#FF0000" to 2,   // Red
             "#008000" to 0.5, // Green
-            "#FFFF00" to 0.25, // Yellow
+            "#FFFF00" to 0.25,// Yellow
             "#800080" to 0.1, // Violet
-            "#808080" to 0.05, // Gray
-            "#FFD700" to 5, // Gold
-            "#C0C0C0" to 10  // Silver
+            "#808080" to 0.05,// Gray
+            "#FFD700" to 5,   // Gold
+            "#C0C0C0" to 10   // Silver
         )
-        val tolerance = toleranceValues[band4] ?: return "Invalid color: $band4"
-        return "Resistance: $resistance ohms, Tolerance: ±$tolerance%"
+        val toleranceValue = toleranceValues[tolerance.toLowerCase()] ?: return "Invalid color: $tolerance"
+        return "Resistance: $resistance ohms, Tolerance: ±$toleranceValue%"
     } else {
         return "Resistance: $resistance ohms"
     }
