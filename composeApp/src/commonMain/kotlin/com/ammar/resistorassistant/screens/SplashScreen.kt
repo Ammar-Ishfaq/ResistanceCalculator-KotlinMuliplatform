@@ -43,7 +43,7 @@ data object SplashScreen : Screen {
 
         // Delay for 5 seconds and navigate to ListScreen
         LaunchedEffect(key1 = navigateToListScreen) {
-            delay(500) // 5000 milliseconds = 5 seconds
+            delay(50) // 5000 milliseconds = 5 seconds
             navigator.push(ResistanceCalculator)
         }
     }
@@ -55,7 +55,7 @@ fun SplashScreen() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(MR.colors.brown.toCR()),
+            .background(MR.colors.blue.toCR()),
         contentAlignment = Alignment.Center
     ) {
         Column(

@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -24,8 +25,10 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.contentColorFor
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Home
@@ -46,14 +49,19 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.ammar.resistorassistant.MR
 import com.ammar.resistorassistant.extension.toCR
+import com.ammar.resistorassistant.screens.band.BandSelectionScreen
 import com.ammar.resistorassistant.screens.band.FiveBandResistorCalculator
 import com.ammar.resistorassistant.screens.band.FourBandResistorCalculator
 import com.ammar.resistorassistant.screens.band.SixBandResistorCalculator
@@ -73,70 +81,70 @@ data object ResistanceCalculator : Screen {
 
         val isHome = selectedScreen == ScreenType.HOME
         Box(modifier = Modifier.fillMaxSize().background(MR.colors.black.toCR())) {
-            Scaffold(
-                topBar = {
-                    TopAppBar(backgroundColor = MR.colors.white.toCR()) {
-
-                        IconButton(onClick = {}) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Text(
-                                    text = if (isHome) "Res Calculate" else "Guide", // Replace with your desired title
-                                    style = MaterialTheme.typography.h5,
-                                    fontWeight = FontWeight.Normal,
-                                    color = MR.colors.black.toCR()
-                                )
-                            }
-                        }
+            Column {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(MR.colors.blue.toCR())
+                        .padding(16.dp)
+                ) {
+                    Column {
+                        Text(
+                            text = if (isHome) "Resistance Color Calculator" else "Guide To Calculate", // Replace with your desired title
+                            style = MaterialTheme.typography.h3,
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = FontFamily.SansSerif,
+                            color = MR.colors.white.toCR()
+                        )
+                        Box(modifier = Modifier.height(30.dp))
                     }
-                }) {
-                Column {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1f)
-                            .background(MR.colors.white.toCR())
-                            .padding(16.dp)
-                    ) {
-                        when (selectedScreen) {
-                            ScreenType.HOME -> {
+                }
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                        .background(MR.colors.white.toCR())
+                        .padding(16.dp)
+                        .offset(y = if (isHome) (-50).dp else 0.dp) // Use offset to move the second Box upwards
 
-                                HomeScreenContent()
 
-                            }
+                ) {
+                    when (selectedScreen) {
+                        ScreenType.HOME -> {
 
-                            ScreenType.GUIDE -> {
+                            HomeScreenContent()
 
-                                AnimatedContent(objects.isNotEmpty()) { objectsAvailable ->
-                                    if (objectsAvailable) {
-                                        ObjectGrid(
-                                            objects = objects,
-                                            onObjectClick = { objectId ->
-                                                navigator.push(DetailScreen(objectId))
-                                            }
-                                        )
-                                    } else {
-                                        EmptyScreenContent(Modifier.fillMaxSize())
-                                    }
+                        }
+
+                        ScreenType.GUIDE -> {
+
+                            AnimatedContent(objects.isNotEmpty()) { objectsAvailable ->
+                                if (objectsAvailable) {
+                                    ObjectGrid(
+                                        objects = objects,
+                                        onObjectClick = { objectId ->
+                                            navigator.push(DetailScreen(objectId))
+                                        }
+                                    )
+                                } else {
+                                    EmptyScreenContent(Modifier.fillMaxSize())
                                 }
                             }
                         }
                     }
+                }
 
-                    BottomNavigationBar(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(60.dp)
-                            .background(MR.colors.white.toCR()),
-                        selectedScreenType = mutableStateOf(selectedScreen),
+                BottomNavigationBar(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(60.dp)
+                        .background(MR.colors.white.toCR()),
+                    selectedScreenType = mutableStateOf(selectedScreen),
 
-                        ) {
-                        selectedScreen = it
-                    }
+                    ) {
+                    selectedScreen = it
                 }
             }
-
         }
     }
 }
@@ -227,128 +235,42 @@ enum class ScreenType {
 
 @Composable
 fun HomeScreenContent() {
-    var selectedBand by remember { mutableStateOf(4) }
+    var selectedBand by remember { mutableStateOf(0) }
+    Column {
 
-    LazyColumn {
-        item {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .background(MR.colors.brown.toCR())
-                    .border(2.dp, Color.Black, shape = RoundedCornerShape(8.dp))
-            ) {
-                Text(
-                    text = "Select Band Type",
-                    color = Color.Black,
-                    style = MaterialTheme.typography.h5,
-                    fontWeight = FontWeight.Thin,
-                    modifier = Modifier.padding(8.dp)
-                )
 
-                BandSelectionMenu { selectedBands ->
-                    selectedBand = selectedBands
-                }
-            }
+        BandSelectionScreen { selectedBands ->
+            selectedBand = selectedBands
         }
+        LazyColumn {
+            item {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(16.dp)
+                        .background(MR.colors.white.toCR())
+                        .border(2.dp, Color.Black, shape = RoundedCornerShape(8.dp))
+                ) {
+                    Text(
+                        text = "Calculate Resistance",
+                        color = Color.Black,
+                        style = MaterialTheme.typography.h5,
+                        fontWeight = FontWeight.Thin,
+                        modifier = Modifier.padding(8.dp)
+                    )
 
-        item {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp)
-                    .background(MR.colors.white.toCR())
-                    .border(2.dp, Color.Black, shape = RoundedCornerShape(8.dp))
-            ) {
-                Text(
-                    text = "Calculate Resistance",
-                    color = Color.Black,
-                    style = MaterialTheme.typography.h5,
-                    fontWeight = FontWeight.Thin,
-                    modifier = Modifier.padding(8.dp)
-                )
-
-                when (selectedBand) {
-                    4 -> {
-                        FourBandResistorCalculator()
-                    }
-
-                    5 -> {
-                        FiveBandResistorCalculator()
-                    }
-
-                    6 -> {
-                        SixBandResistorCalculator()
-                    }
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun BandSelectionMenu(onSelectBand: (Int) -> Unit) {
-    var expanded by remember { mutableStateOf(false) }
-    var selectedBand by remember { mutableStateOf("4 Bands") }
-
-    val resistorBands = listOf(4, 5, 6)
-    Box(
-        modifier = Modifier
-            .padding(8.dp)
-            .width(200.dp) // Adjust the width as needed
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .clickable { expanded = true }
-                .background(Color.Gray)
-                .padding(8.dp)
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(
-                    text = selectedBand,
-                    modifier = Modifier.padding(4.dp),
-                    color = Color.White
-                )
-
-                Icon(
-                    imageVector = Icons.Default.ArrowDropDown,
-                    contentDescription = null,
-                    tint = Color.White
-                )
-            }
-        }
-
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-            modifier = Modifier
-                .background(Color.Gray)
-                .padding(8.dp)
-        ) {
-            Column(
-                modifier = Modifier
-                    .background(Color.Gray)
-                    .padding(8.dp)
-            ) {
-                resistorBands.forEach { band ->
-                    DropdownMenuItem(
-                        onClick = {
-                            selectedBand = "$band Bands"
-                            onSelectBand.invoke(band)
-                            expanded = false
+                    when (selectedBand) {
+                        0 -> {
+                            FourBandResistorCalculator()
                         }
-                    ) {
-                        Text(
-                            text = "$band Bands",
-                            modifier = Modifier.padding(8.dp),
-                            color = Color.White
-                        )
+
+                        1 -> {
+                            FiveBandResistorCalculator()
+                        }
+
+                        2 -> {
+                            SixBandResistorCalculator()
+                        }
                     }
                 }
             }
