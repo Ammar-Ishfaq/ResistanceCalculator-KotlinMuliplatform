@@ -5,4 +5,6 @@
     <color name="image_color">#007ACC</color>
     <color name="black">#000000</color>
     <color name="gray">#d8dbe0</color>
+    <color name="brown">#BEB7A4</color>
+    <color name="white">#FFFFFC</color>
 </resources>

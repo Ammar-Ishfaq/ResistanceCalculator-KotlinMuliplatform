@@ -4,11 +4,28 @@ import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Arrangement.Absolute.Center
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Home
@@ -23,6 +40,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
@@ -33,7 +54,9 @@ import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.ammar.resistorassistant.MR
 import com.ammar.resistorassistant.extension.toCR
-import com.ammar.resistorassistant.screens.band.*
+import com.ammar.resistorassistant.screens.band.FiveBandResistorCalculator
+import com.ammar.resistorassistant.screens.band.FourBandResistorCalculator
+import com.ammar.resistorassistant.screens.band.SixBandResistorCalculator
 import com.ammar.resistorassistant.screens.detail.DetailScreen
 import com.ammar.resistorassistant.screens.list.ListScreenModel
 import com.ammar.resistorassistant.screens.list.ObjectGrid
@@ -49,55 +72,68 @@ data object ResistanceCalculator : Screen {
 
 
         val isHome = selectedScreen == ScreenType.HOME
-        Box(modifier = Modifier.fillMaxSize()) {
-            Column {
-                // Title header
-                Text(
-                    text = if (isHome) "Res Calculate" else "Guide", // Replace with your desired title
-                    style = MaterialTheme.typography.h4,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.fillMaxWidth()
-                        .background(color = MR.colors.background_color.toCR())
-                )
+        Box(modifier = Modifier.fillMaxSize().background(MR.colors.black.toCR())) {
+            Scaffold(
+                topBar = {
+                    TopAppBar(backgroundColor = MR.colors.white.toCR()) {
 
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f)
-                        .padding(16.dp)
-                ) {
-                    when (selectedScreen) {
-                        ScreenType.HOME -> {
-                            HomeScreenContent()
+                        IconButton(onClick = {}) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = if (isHome) "Res Calculate" else "Guide", // Replace with your desired title
+                                    style = MaterialTheme.typography.h5,
+                                    fontWeight = FontWeight.Normal,
+                                    color = MR.colors.black.toCR()
+                                )
+                            }
                         }
+                    }
+                }) {
+                Column {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
+                            .background(MR.colors.white.toCR())
+                            .padding(16.dp)
+                    ) {
+                        when (selectedScreen) {
+                            ScreenType.HOME -> {
 
-                        ScreenType.GUIDE -> {
+                                HomeScreenContent()
 
-                            AnimatedContent(objects.isNotEmpty()) { objectsAvailable ->
-                                if (objectsAvailable) {
-                                    ObjectGrid(
-                                        objects = objects,
-                                        onObjectClick = { objectId ->
-                                            navigator.push(DetailScreen(objectId))
-                                        }
-                                    )
-                                } else {
-                                    EmptyScreenContent(Modifier.fillMaxSize())
+                            }
+
+                            ScreenType.GUIDE -> {
+
+                                AnimatedContent(objects.isNotEmpty()) { objectsAvailable ->
+                                    if (objectsAvailable) {
+                                        ObjectGrid(
+                                            objects = objects,
+                                            onObjectClick = { objectId ->
+                                                navigator.push(DetailScreen(objectId))
+                                            }
+                                        )
+                                    } else {
+                                        EmptyScreenContent(Modifier.fillMaxSize())
+                                    }
                                 }
                             }
                         }
                     }
-                }
 
-                BottomNavigationBar(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(60.dp)
-                        .background(MR.colors.background_color.toCR()),
-                    selectedScreenType = mutableStateOf(selectedScreen),
+                    BottomNavigationBar(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(60.dp)
+                            .background(MR.colors.white.toCR()),
+                        selectedScreenType = mutableStateOf(selectedScreen),
 
-                    ) {
-                    selectedScreen = it
+                        ) {
+                        selectedScreen = it
+                    }
                 }
             }
 
@@ -116,30 +152,49 @@ fun BottomNavigationBar(
         BottomNavItem("Home", Icons.Default.Home, ScreenType.HOME),
         BottomNavItem("More", Icons.Default.Info, ScreenType.GUIDE)
     )
-
-    Row(
-        modifier = modifier,
-        horizontalArrangement = Center,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        items.forEachIndexed { index, item ->
-            Spacer(modifier = Modifier.weight(1f))
-            BottomNavItemButton(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .alpha(if (item.screenType == selectedScreenType.value) 1f else 0.6f)
-                    .clickable {
-                        selectedScreenType.value = item.screenType
-                        onScreenSelected.invoke(item.screenType)
-                    }
-                    .padding(8.dp),
-                item = item,
-            )
-            if (index == items.lastIndex) {
-                Spacer(modifier = Modifier.weight(1f)) // Add Spacer with weight
+    Column {
+        // Shadow gradient
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(5.dp)
+                .drawWithContent {
+                    drawContent()
+                    drawRect(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(
+                                Color.Transparent,
+                                Color.Gray
+                            )
+                        ),
+                        size = Size(size.width, 5.dp.toPx())
+                    )
+                }
+        )
+        Row(
+            modifier = modifier,
+            horizontalArrangement = Center,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            items.forEachIndexed { index, item ->
+                Spacer(modifier = Modifier.weight(1f))
+                BottomNavItemButton(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .alpha(if (item.screenType == selectedScreenType.value) 1f else 0.6f)
+                        .clickable {
+                            selectedScreenType.value = item.screenType
+                            onScreenSelected.invoke(item.screenType)
+                        }
+                        .padding(8.dp),
+                    item = item,
+                )
+                if (index == items.lastIndex) {
+                    Spacer(modifier = Modifier.weight(1f)) // Add Spacer with weight
+                }
             }
-        }
 
+        }
     }
 }
 
@@ -180,6 +235,8 @@ fun HomeScreenContent() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp)
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(MR.colors.brown.toCR())
                     .border(2.dp, Color.Black, shape = RoundedCornerShape(8.dp))
             ) {
                 Text(
@@ -201,6 +258,7 @@ fun HomeScreenContent() {
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(16.dp)
+                    .background(MR.colors.white.toCR())
                     .border(2.dp, Color.Black, shape = RoundedCornerShape(8.dp))
             ) {
                 Text(
@@ -244,7 +302,6 @@ fun BandSelectionMenu(onSelectBand: (Int) -> Unit) {
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable { expanded = true }
-//                .clip(CircleShape)
                 .background(Color.Gray)
                 .padding(8.dp)
         ) {
