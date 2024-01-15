@@ -216,13 +216,13 @@ fun BottomNavItemButton(modifier: Modifier, item: BottomNavItem) {
         Icon(
             imageVector = item.icon,
             contentDescription = item.title,
-            tint = MR.colors.text_color.toCR()
+            tint = MR.colors.blue.toCR()
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = item.title,
             style = MaterialTheme.typography.caption,
-            color = MR.colors.text_color.toCR()
+            color = MR.colors.blue.toCR()
         )
     }
 }
