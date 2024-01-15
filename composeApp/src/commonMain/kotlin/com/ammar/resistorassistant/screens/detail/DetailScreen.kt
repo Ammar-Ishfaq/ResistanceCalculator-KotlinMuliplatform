@@ -35,7 +35,7 @@ import cafe.adriel.voyager.koin.getScreenModel
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import com.ammar.resistorassistant.MR
-import com.ammar.resistorassistant.data.MuseumObject
+import com.ammar.resistorassistant.data.ResistorObject
 import com.ammar.resistorassistant.screens.EmptyScreenContent
 import dev.icerock.moko.resources.compose.stringResource
 import io.kamel.image.KamelImage
@@ -60,7 +60,7 @@ data class DetailScreen(val objectId: Int) : Screen {
 
 @Composable
 private fun ObjectDetails(
-    obj: MuseumObject,
+    obj: ResistorObject,
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -80,8 +80,8 @@ private fun ObjectDetails(
                 .padding(paddingValues)
         ) {
             KamelImage(
-                resource = asyncPainterResource(data = obj.primaryImageSmall),
-                contentDescription = obj.title,
+                resource = asyncPainterResource(data = obj.image),
+                contentDescription = obj.name,
                 contentScale = ContentScale.FillWidth,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -90,16 +90,14 @@ private fun ObjectDetails(
 
             SelectionContainer {
                 Column(Modifier.padding(12.dp)) {
-                    Text(obj.title, style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Bold))
+                    Text(
+                        obj.name,
+                        style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Bold)
+                    )
                     Spacer(Modifier.height(6.dp))
-                    LabeledInfo(stringResource(MR.strings.label_title), obj.title)
-                    LabeledInfo(stringResource(MR.strings.label_artist), obj.artistDisplayName)
-                    LabeledInfo(stringResource(MR.strings.label_date), obj.objectDate)
-                    LabeledInfo(stringResource(MR.strings.label_dimensions), obj.dimensions)
-                    LabeledInfo(stringResource(MR.strings.label_medium), obj.medium)
-                    LabeledInfo(stringResource(MR.strings.label_department), obj.department)
-                    LabeledInfo(stringResource(MR.strings.label_repository), obj.repository)
-                    LabeledInfo(stringResource(MR.strings.label_credits), obj.creditLine)
+                    LabeledInfo(stringResource(MR.strings.label_title), obj.name)
+                    LabeledInfo(stringResource(MR.strings.label_description), obj.description)
+
                 }
             }
         }
@@ -124,3 +122,4 @@ private fun LabeledInfo(
         )
     }
 }
+

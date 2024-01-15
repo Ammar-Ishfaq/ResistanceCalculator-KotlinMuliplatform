@@ -5,17 +5,17 @@ import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.utils.io.CancellationException
 
-interface MuseumApi {
-    suspend fun getData(): List<MuseumObject>
+interface AppAPI {
+    suspend fun getResistorData(): List<ResistorObject>
 }
 
-class KtorMuseumApi(private val client: HttpClient) : MuseumApi {
+class KtorAppAPI(private val client: HttpClient) : AppAPI {
     companion object {
         private const val API_URL =
-            "https://raw.githubusercontent.com/Kotlin/KMP-App-Template/main/list.json"
+            "https://raw.githubusercontent.com/Ammar-Ishfaq/ResistanceCalculator/guideScreen/ResistanceGuide.json?token=GHSAT0AAAAAACIEJLUL3TFGABEEAM4VDZDUZM7Z4RQ"
     }
 
-    override suspend fun getData(): List<MuseumObject> {
+    override suspend fun getResistorData(): List<ResistorObject> {
         return try {
             client.get(API_URL).body()
         } catch (e: Exception) {

@@ -1,5 +1,6 @@
 package com.ammar.resistorassistant.screens
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -11,9 +12,10 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,42 +28,63 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.koin.getScreenModel
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import com.ammar.resistorassistant.MR
 import com.ammar.resistorassistant.extension.toCR
 import com.ammar.resistorassistant.screens.band.*
+import com.ammar.resistorassistant.screens.detail.DetailScreen
+import com.ammar.resistorassistant.screens.list.ListScreenModel
+import com.ammar.resistorassistant.screens.list.ObjectGrid
 
 data object ResistanceCalculator : Screen {
     @Composable
     override fun Content() {
+        val screenModel: ListScreenModel = getScreenModel()
+        val navigator = LocalNavigator.currentOrThrow
+        val objects by screenModel.objects.collectAsState()
+
         var selectedScreen by remember { mutableStateOf(ScreenType.HOME) }
+
 
         val isHome = selectedScreen == ScreenType.HOME
         Box(modifier = Modifier.fillMaxSize()) {
             Column {
                 // Title header
                 Text(
-                    text = if (isHome) "Res Calculate" else "Menu", // Replace with your desired title
+                    text = if (isHome) "Res Calculate" else "Guide", // Replace with your desired title
                     style = MaterialTheme.typography.h4,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.fillMaxWidth()
                         .background(color = MR.colors.background_color.toCR())
                 )
 
-                // Black box with padding
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .weight(1f) // Takes up remaining space
+                        .weight(1f)
                         .padding(16.dp)
                 ) {
-                    // Content for the box (e.g., screen-specific content)
                     when (selectedScreen) {
                         ScreenType.HOME -> {
                             HomeScreenContent()
                         }
 
-                        ScreenType.MORE -> {
-                            Text("MoreScreen Content")
+                        ScreenType.GUIDE -> {
+
+                            AnimatedContent(objects.isNotEmpty()) { objectsAvailable ->
+                                if (objectsAvailable) {
+                                    ObjectGrid(
+                                        objects = objects,
+                                        onObjectClick = { objectId ->
+                                            navigator.push(DetailScreen(objectId))
+                                        }
+                                    )
+                                } else {
+                                    EmptyScreenContent(Modifier.fillMaxSize())
+                                }
+                            }
                         }
                     }
                 }
@@ -91,7 +114,7 @@ fun BottomNavigationBar(
 ) {
     val items = listOf(
         BottomNavItem("Home", Icons.Default.Home, ScreenType.HOME),
-        BottomNavItem("More", Icons.Default.Menu, ScreenType.MORE)
+        BottomNavItem("More", Icons.Default.Info, ScreenType.GUIDE)
     )
 
     Row(
@@ -144,8 +167,9 @@ fun BottomNavItemButton(modifier: Modifier, item: BottomNavItem) {
 data class BottomNavItem(val title: String, val icon: ImageVector, val screenType: ScreenType)
 enum class ScreenType {
     HOME,
-    MORE
+    GUIDE
 }
+
 @Composable
 fun HomeScreenContent() {
     var selectedBand by remember { mutableStateOf(4) }
@@ -191,9 +215,11 @@ fun HomeScreenContent() {
                     4 -> {
                         FourBandResistorCalculator()
                     }
+
                     5 -> {
                         FiveBandResistorCalculator()
                     }
+
                     6 -> {
                         SixBandResistorCalculator()
                     }

@@ -1,10 +1,10 @@
 package com.ammar.resistorassistant.di
 
-import com.ammar.resistorassistant.data.InMemoryMuseumStorage
-import com.ammar.resistorassistant.data.KtorMuseumApi
-import com.ammar.resistorassistant.data.MuseumApi
-import com.ammar.resistorassistant.data.MuseumRepository
-import com.ammar.resistorassistant.data.MuseumStorage
+import com.ammar.resistorassistant.data.InMemoryAppStorage
+import com.ammar.resistorassistant.data.KtorAppAPI
+import com.ammar.resistorassistant.data.AppAPI
+import com.ammar.resistorassistant.data.AppRepository
+import com.ammar.resistorassistant.data.AppStorage
 import com.ammar.resistorassistant.screens.detail.DetailScreenModel
 import com.ammar.resistorassistant.screens.list.ListScreenModel
 import io.ktor.client.HttpClient
@@ -27,10 +27,10 @@ val dataModule = module {
         }
     }
 
-    single<MuseumApi> { KtorMuseumApi(get()) }
-    single<MuseumStorage> { InMemoryMuseumStorage() }
+    single<AppAPI> { KtorAppAPI(get()) }
+    single<AppStorage> { InMemoryAppStorage() }
     single {
-        MuseumRepository(get(), get()).apply {
+        AppRepository(get(), get()).apply {
             initialize()
         }
     }
