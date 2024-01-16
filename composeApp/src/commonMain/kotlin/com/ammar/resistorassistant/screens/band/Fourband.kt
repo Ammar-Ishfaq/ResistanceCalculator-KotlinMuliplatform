@@ -285,10 +285,16 @@ fun calculateResistorValue(
     )
 
     // Extract digit values from color bands
-    val digit1 = colorCode[band1] ?: return "Invalid color: $band1"
-    val digit2 = colorCode[band2] ?: return "Invalid color: $band2"
+    val digit1 = colorCode[band1] ?: return "Invalid color: ${getColorName(band1)} band1"
+    val digit2 = colorCode[band2] ?: return "Invalid color: ${getColorName(band2)} band2"
     val multiplierValue =
-        10.0.pow(colorCode[multiplier]?.toDouble() ?: return "Invalid color: $multiplier")
+        10.0.pow(
+            colorCode[multiplier]?.toDouble() ?: return "Invalid color: ${
+                getColorName(
+                    multiplier
+                )
+            } multiplier"
+        )
 
     // Calculate resistance value
     val resistance = (digit1 * 10 + digit2) * multiplierValue
@@ -306,7 +312,11 @@ fun calculateResistorValue(
             "#C0C0C0" to 10   // Silver
         )
         val toleranceValue =
-            toleranceValues[tolerance.lowercase()] ?: return "Invalid color: $tolerance"
+            toleranceValues[tolerance.lowercase()] ?: return "Invalid color: ${
+                getColorName(
+                    tolerance
+                )
+            } tolerance"
         return "Resistance: $resistance ohms\nTolerance: ±$toleranceValue%"
     } else {
         return "Resistance: $resistance ohms"
