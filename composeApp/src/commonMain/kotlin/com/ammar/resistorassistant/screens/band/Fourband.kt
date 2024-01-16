@@ -61,7 +61,7 @@ fun FourBandResistorCalculator() {
                 style = MaterialTheme.typography.h6,
                 fontWeight = FontWeight.Bold,
                 fontFamily = FontFamily.SansSerif,
-                color = MR.colors.black.toCR(),
+                color = MR.colors.gray.toCR(),
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
         else Text(
