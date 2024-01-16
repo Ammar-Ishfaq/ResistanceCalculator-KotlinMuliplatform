@@ -101,7 +101,7 @@ data object ResistanceCalculator : Screen {
                 }
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .fillMaxSize()
                         .weight(1f)
                         .background(MR.colors.white.toCR())
                         .padding(16.dp)
@@ -161,24 +161,14 @@ fun BottomNavigationBar(
         BottomNavItem("More", Icons.Default.Info, ScreenType.GUIDE)
     )
     Column {
-        // Shadow gradient
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(5.dp)
-                .drawWithContent {
-                    drawContent()
-                    drawRect(
-                        brush = Brush.verticalGradient(
-                            colors = listOf(
-                                Color.Transparent,
-                                Color.Gray
-                            )
-                        ),
-                        size = Size(size.width, 5.dp.toPx())
-                    )
-                }
+                .height(1.dp)
+                .background(MR.colors.gray.toCR()) // Set opacity to 20%
+                .alpha(0.1f)
         )
+
         Row(
             modifier = modifier,
             horizontalArrangement = Center,
@@ -236,42 +226,31 @@ enum class ScreenType {
 @Composable
 fun HomeScreenContent() {
     var selectedBand by remember { mutableStateOf(0) }
-    Column {
-
+    Column(
+        modifier = Modifier
+            .fillMaxHeight(),
+    ) {
 
         BandSelectionScreen { selectedBands ->
             selectedBand = selectedBands
         }
-        LazyColumn {
-            item {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp)
-                        .background(MR.colors.white.toCR())
-                        .border(2.dp, Color.Black, shape = RoundedCornerShape(8.dp))
-                ) {
-                    Text(
-                        text = "Calculate Resistance",
-                        color = Color.Black,
-                        style = MaterialTheme.typography.h5,
-                        fontWeight = FontWeight.Thin,
-                        modifier = Modifier.padding(8.dp)
-                    )
 
-                    when (selectedBand) {
-                        0 -> {
-                            FourBandResistorCalculator()
-                        }
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+        ) {
 
-                        1 -> {
-                            FiveBandResistorCalculator()
-                        }
+            when (selectedBand) {
+                0 -> {
+                    FourBandResistorCalculator()
+                }
 
-                        2 -> {
-                            SixBandResistorCalculator()
-                        }
-                    }
+                1 -> {
+                    FiveBandResistorCalculator()
+                }
+
+                2 -> {
+                    SixBandResistorCalculator()
                 }
             }
         }
