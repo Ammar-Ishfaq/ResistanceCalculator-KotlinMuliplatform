@@ -6,7 +6,7 @@
 This is a basic Kotlin Multiplatform Resistance calculator app for **Android** and **iOS**. It includes shared business logic and data handling, and a shared UI implementation using Compose Multiplatform.
 
 ### App Preview
-[![app_gif](https://github.com/Ammar-Ishfaq/ResistanceCalculator/blob/designUpdate/other_data/resitance_calculator_gif.gif)](https://drive.google.com/file/d/1JuB2kNSeYxTanYlwD0Zrf5hxYtW7TWK0/preview)
+<img src="./other_data/resitance_calculator_gif.gif" width="25%" height="25%"/>
 
 
 ### Technologies
