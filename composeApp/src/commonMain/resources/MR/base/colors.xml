@@ -4,5 +4,8 @@
     <color name="text_color">#333333</color>
     <color name="image_color">#007ACC</color>
     <color name="black">#000000</color>
-    <color name="gray">#d8dbe0</color>
+    <color name="gray">#d8d8d8</color>
+    <color name="brown">#BEB7A4</color>
+    <color name="white">#FFFFFC</color>
+    <color name="blue">#7668e7</color>
 </resources>

@@ -1,0 +1,20 @@
+[
+    {
+        "id": 0,
+        "name": "4-band",
+        "image": "https://www.shutterstock.com/image-vector/vector-electronics-component-resistor-260nw-41750524.jpg",
+        "description": "Overview:\n\n4-band resistors are identified by four colored bands that convey essential information about their resistance value.\n\nDetails:\n\n- First Significant Digit: Represents the first significant digit of the resistance value.\n- Second Significant Digit: Represents the second significant digit of the resistance value.\n- Multiplier: Indicates the multiplier, i.e., the number of zeros to append to the significant digits.\n- Tolerance: Represents the tolerance of the resistor, indicating the acceptable range of the resistance value.\n\nCalculation:\n\nCombine the values of the first two bands, multiply by the multiplier, and apply the tolerance.\n\nBenefits:\n\nThe 4-band resistor coding system is simple and commonly used."
+    },
+    {
+        "id": 1,
+        "name": "5-band",
+        "image": "https://circuitdigest.com/sites/default/files/inlineimages/5-band-resistor-color-code.png",
+        "description": "Overview:\n\n5-band resistors provide more precision than 4-band resistors by adding an extra digit to the resistance value.\n\nDetails:\n\n- First Significant Digit: Represents the first significant digit of the resistance value.\n- Second Significant Digit: Represents the second significant digit of the resistance value.\n- Third Significant Digit: Represents the third significant digit of the resistance value.\n- Multiplier: Indicates the multiplier, i.e., the number of zeros to append to the significant digits.\n- Tolerance: Represents the tolerance of the resistor, indicating the acceptable range of the resistance value.\n\nCalculation:\n\nCombine the values of the first three bands, multiply by the multiplier, and apply the tolerance.\n\nBenefits:\n\nThe 5-band system allows for a more precise representation of resistor values."
+    },
+    {
+        "id": 2,
+        "name": "6-band",
+        "image": "https://circuitdigest.com/sites/default/files/inlineimages/6-band-resistor.png",
+        "description": "Overview:\n\n6-band resistors are identified by six colored bands that convey essential information about their resistance value.\n\nDetails:\n\n- First Significant Digit: Represents the first significant digit of the resistance value.\n- Second Significant Digit: Represents the second significant digit of the resistance value.\n- Third Significant Digit: Represents the third significant digit of the resistance value.\n- Multiplier: Indicates the multiplier, i.e., the number of zeros to append to the significant digits.\n- Tolerance: Represents the tolerance of the resistor, indicating the acceptable range of the resistance value.\n\nCalculation:\n\nCombine the values of the first three bands, multiply by the multiplier, and apply the tolerance.\n\nBenefits:\n\nThe 6-band system allows for a more detailed representation of resistor values."
+    }
+]

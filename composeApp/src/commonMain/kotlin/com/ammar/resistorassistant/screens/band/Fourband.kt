@@ -1,22 +1,27 @@
 package com.ammar.resistorassistant.screens.band
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
+import androidx.compose.material.ButtonColors
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,12 +30,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.ammar.resistorassistant.MR
+import com.ammar.resistorassistant.extension.toCR
 import com.ammar.resistorassistant.extension.toComposeColor
 import kotlin.math.pow
 
@@ -44,33 +50,128 @@ fun FourBandResistorCalculator() {
 
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
+        if (resistanceCalculation.isNotEmpty())
+            Text(
+                text = resistanceCalculation,
+                style = MaterialTheme.typography.h6,
+                fontWeight = FontWeight.Bold,
+                fontFamily = FontFamily.SansSerif,
+                color = MR.colors.gray.toCR(),
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
+        else Text(
+            text = "Calculate resistance; result shown here.",
+            style = MaterialTheme.typography.caption,
+            fontWeight = FontWeight.Bold,
+            fontFamily = FontFamily.SansSerif,
+            color = MR.colors.gray.toCR(),
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        )
         Spacer(modifier = Modifier.height(16.dp))
 
-        ResistorBandInput("Band 1", band1, { band1 = it })
-        Spacer(modifier = Modifier.height(8.dp))
-        ResistorBandInput("Band 2", band2, { band2 = it })
-        Spacer(modifier = Modifier.height(8.dp))
-        ResistorBandInput("Multiplier", multiplier, { multiplier = it })
-        Spacer(modifier = Modifier.height(8.dp))
-        ResistorBandInput("Tolerance", tolerance, { tolerance = it })
+
+        // resistance design
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(100.dp)
+
+        ) {
+            Row(
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .padding(top = 40.dp)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .width(5.dp)
+                        .fillMaxHeight(0.5f)
+                        .background(color = MR.colors.gray.toCR())
+                )
+
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .height(5.dp)
+                        .background(color = MR.colors.gray.toCR())
+                )
+
+                Box(
+                    modifier = Modifier
+                        .width(5.dp)
+                        .fillMaxHeight(0.5f)
+                        .background(color = MR.colors.gray.toCR())
+                )
+            }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .fillMaxWidth(0.9f)
+                        .background(color = Color(0xFFfaf6ed), shape = RoundedCornerShape(25.dp))
+                        .border(2.dp, MR.colors.gray.toCR(), shape = RoundedCornerShape(25.dp))
+                        .padding(start = 25.dp, end = 25.dp),
+
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center,
+
+                    ) {
+                    ResistorBandInput("Band 1", band1, { band1 = it })
+                    Spacer(modifier = Modifier.weight(0.03f))
+                    ResistorBandInput("Band 2", band2, { band2 = it })
+                    Spacer(modifier = Modifier.weight(0.03f))
+                    ResistorBandInput("Multiplier", multiplier, { multiplier = it })
+                    Spacer(modifier = Modifier.weight(0.5f))
+                    ResistorBandInput("Tolerance", tolerance, { tolerance = it })
+                }
+            }
+        }
+
 
         Spacer(modifier = Modifier.height(16.dp))
-        if (resistanceCalculation.isNotEmpty()) Text(resistanceCalculation)
-        Button(
-            onClick = {
-                val result = calculateResistorValue(band1, band2, multiplier, tolerance)
-                print("Ohm Resistance => $result")
-                resistanceCalculation = result
-            },
+        Text(
+            text = "Tap on bands to select colors",
+            style = MaterialTheme.typography.caption,
+            fontWeight = FontWeight.Bold,
+            fontFamily = FontFamily.SansSerif,
+            color = MR.colors.gray.toCR(),
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp)
+                .background(
+                    color = MR.colors.blue.toCR(),
+                    shape = RoundedCornerShape(20.dp)
+                ) // Black background with rounded corners
+                .clickable {
+                    val result = calculateResistorValue(band1, band2, multiplier, tolerance)
+                    print("Ohm Resistance => $result")
+                    resistanceCalculation = result
+                }
         ) {
-            Text(text = "Calculate Resistance")
+            Text(
+                text = "Calculate Resistance",
+                color = Color.White, // White text color
+                modifier = Modifier.align(Alignment.Center)
+            )
         }
+
+
     }
 }
 
@@ -81,7 +182,6 @@ fun ResistorBandInput(
     onColorSelected: (String) -> Unit,
 ) {
     var isError by remember { mutableStateOf(false) }
-    val density = LocalDensity.current.density
 
     // Actual resistor colors in hexadecimal format
     val resistorColors = listOf(
@@ -101,38 +201,18 @@ fun ResistorBandInput(
 
     Column(
         modifier = Modifier
-            .fillMaxWidth()
     ) {
-        Text(
-            text = label,
-            color = Color.Black,
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold
-        )
-
         Row(
             modifier = Modifier
-                .fillMaxWidth()
                 .clickable { expanded = true }
-                .clip(
-                    RoundedCornerShape(
-                        topStart = CornerSize(16.dp * density),
-                        topEnd = CornerSize(16.dp * density),
-                        bottomStart = CornerSize(4.dp * density),
-                        bottomEnd = CornerSize(4.dp * density)
-                    )
-                )
                 .background(if (isError) Color(0xFFFFCCCC.toInt()) else Color.Transparent)
-                .padding(top = 8.dp)
         ) {
-            Spacer(modifier = Modifier.width(8.dp))
             Box(
                 modifier = Modifier
-                    .size(16.dp)
+                    .width(30.dp)
+                    .fillMaxHeight()
                     .background(selectedColor.toComposeColor())
             )
-            Spacer(modifier = Modifier.width(8.dp))
-            Text(text = getColorName(selectedColor), color = Color.Black)
         }
 
         DropdownMenu(
@@ -184,7 +264,12 @@ fun getColorName(hexCode: String): String {
     return colorNames[hexCode] ?: "Unknown"
 }
 
-fun calculateResistorValue(band1: String, band2: String, multiplier: String, tolerance: String): String {
+fun calculateResistorValue(
+    band1: String,
+    band2: String,
+    multiplier: String,
+    tolerance: String
+): String {
     // Define the color code mapping
     val colorCode = mapOf(
         "#000000" to 0, // Black
@@ -200,9 +285,16 @@ fun calculateResistorValue(band1: String, band2: String, multiplier: String, tol
     )
 
     // Extract digit values from color bands
-    val digit1 = colorCode[band1] ?: return "Invalid color: $band1"
-    val digit2 = colorCode[band2] ?: return "Invalid color: $band2"
-    val multiplierValue = 10.0.pow(colorCode[multiplier]?.toDouble() ?: return "Invalid color: $multiplier")
+    val digit1 = colorCode[band1] ?: return "Invalid color: ${getColorName(band1)} band1"
+    val digit2 = colorCode[band2] ?: return "Invalid color: ${getColorName(band2)} band2"
+    val multiplierValue =
+        10.0.pow(
+            colorCode[multiplier]?.toDouble() ?: return "Invalid color: ${
+                getColorName(
+                    multiplier
+                )
+            } multiplier"
+        )
 
     // Calculate resistance value
     val resistance = (digit1 * 10 + digit2) * multiplierValue
@@ -219,8 +311,13 @@ fun calculateResistorValue(band1: String, band2: String, multiplier: String, tol
             "#FFD700" to 5,   // Gold
             "#C0C0C0" to 10   // Silver
         )
-        val toleranceValue = toleranceValues[tolerance.toLowerCase()] ?: return "Invalid color: $tolerance"
-        return "Resistance: $resistance ohms, Tolerance: ±$toleranceValue%"
+        val toleranceValue =
+            toleranceValues[tolerance.lowercase()] ?: return "Invalid color: ${
+                getColorName(
+                    tolerance
+                )
+            } tolerance"
+        return "Resistance: $resistance ohms\nTolerance: ±$toleranceValue%"
     } else {
         return "Resistance: $resistance ohms"
     }

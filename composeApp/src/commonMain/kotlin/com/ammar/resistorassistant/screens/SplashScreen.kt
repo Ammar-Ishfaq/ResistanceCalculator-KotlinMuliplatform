@@ -43,7 +43,7 @@ data object SplashScreen : Screen {
 
         // Delay for 5 seconds and navigate to ListScreen
         LaunchedEffect(key1 = navigateToListScreen) {
-            delay(500) // 5000 milliseconds = 5 seconds
+            delay(5000) // 5000 milliseconds = 5 seconds
             navigator.push(ResistanceCalculator)
         }
     }
@@ -55,7 +55,7 @@ fun SplashScreen() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(MR.colors.background_color.toCR()),
+            .background(MR.colors.blue.toCR()),
         contentAlignment = Alignment.Center
     ) {
         Column(
@@ -64,22 +64,19 @@ fun SplashScreen() {
             modifier = Modifier
                 .padding(horizontal = 16.dp)
         ) {
-            // Your app logo or splash image
             Image(
-                painter = painterResource(MR.images.ic_resistor), // Replace with your image resource
-                contentDescription = null, // Set a meaningful description if needed
+                painter = painterResource(MR.images.ic_resistor),
+                contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(120.dp)
-                    .background(MR.colors.image_color.toCR())
                     .padding(16.dp)
                     .clip(MaterialTheme.shapes.medium)
             )
 
-            // Your splash screen text
             Text(
                 text = stringResource(MR.strings.splash_screen_text),
-                style = MaterialTheme.typography.h5.copy(color = MR.colors.text_color.toCR()),
+                style = MaterialTheme.typography.h5.copy(color = MR.colors.white.toCR()),
                 textAlign = TextAlign.Center,
                 modifier = Modifier
                     .fillMaxWidth()
