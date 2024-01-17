@@ -6,9 +6,6 @@
 This is a basic Kotlin Multiplatform Resistance calculator app for Android and iOS. It includes shared business logic and data handling, and a shared UI implementation using Compose Multiplatform.
 
 ### Technologies
-
-The resistor calculator done by the app is from [RESISTOR COLOR CODE GUIDE](https://neurophysics.ucsd.edu/courses/physics_120/resistorcharts.pdf).
-
 The app uses the following multiplatform dependencies in its implementation:
 
 - [Compose Multiplatform](https://jb.gg/compose) for UI
@@ -20,3 +17,7 @@ The app uses the following multiplatform dependencies in its implementation:
 - [Voyager](https://github.com/adrielcafe/voyager) for navigation and screen models
 
 > These are just some of the possible libraries to use for these tasks with Kotlin Multiplatform, and their usage here isn't a strong recommendation for these specific libraries over the available alternatives. You can find a wide variety of curated multiplatform libraries in the [kmp-awesome](https://github.com/terrakok/kmp-awesome) repository.
+
+### App Preview
+[![app_gif](https://github.com/Ammar-Ishfaq/ResistanceCalculator/blob/designUpdate/other_data/resitance_calculator_gif.gif)](https://drive.google.com/file/d/1JuB2kNSeYxTanYlwD0Zrf5hxYtW7TWK0/preview)
+
