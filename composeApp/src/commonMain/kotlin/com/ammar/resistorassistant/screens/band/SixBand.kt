@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -39,15 +40,14 @@ fun SixBandResistorCalculator() {
     var band2 by remember { mutableStateOf("#000000") } // Black
     var band3 by remember { mutableStateOf("#FF0000") } // Red
     var multiplier by remember { mutableStateOf("#808080") } // Grey
-    var tolerance by remember { mutableStateOf("#FFFF00") } // Yellow
+    var tolerance by remember { mutableStateOf("#808080") } // Yellow
     var temperatureCoefficient by remember { mutableStateOf("#00FFFF") } // Cyan
     var resistanceCalculation by remember { mutableStateOf("") }
 
 
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
+            .fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

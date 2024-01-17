@@ -5,6 +5,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
@@ -37,6 +38,7 @@ fun RoundedCornerBar(
 
     Row(
         modifier = Modifier
+            .offset(y = (-50).dp)
             .background(MR.colors.white.toCR(), shape = RoundedCornerShape(30.dp))
             .border(
                 width = 2.dp, // Adjust the width of the border as needed

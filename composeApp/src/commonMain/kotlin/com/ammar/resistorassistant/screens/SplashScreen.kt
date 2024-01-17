@@ -43,7 +43,7 @@ data object SplashScreen : Screen {
 
         // Delay for 5 seconds and navigate to ListScreen
         LaunchedEffect(key1 = navigateToListScreen) {
-            delay(50) // 5000 milliseconds = 5 seconds
+            delay(5000) // 5000 milliseconds = 5 seconds
             navigator.push(ResistanceCalculator)
         }
     }
