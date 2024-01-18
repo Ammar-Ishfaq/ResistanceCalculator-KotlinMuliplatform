@@ -6,7 +6,9 @@
 This is a basic Kotlin Multiplatform Resistance calculator app for **Android** and **iOS**. It includes shared business logic and data handling, and a shared UI implementation using Compose Multiplatform.
 
 ### App Preview
-<img src="./other_data/resitance_calculator_gif.gif" width="25%" height="25%"/>
+| Android Preview                             | iOS Preview                                      |
+| -------------------------------------------- | ------------------------------------------------ |
+| <img src="./other_data/resitance_calculator_gif.gif" width="25%" height="25%"> | <img src="./other_data/Simulator_Screen_Recording_iPhone_15_Pro.gif" width="25%" height="25%"> |
 
 
 ### Technologies
@@ -22,3 +24,4 @@ The app uses the following multiplatform dependencies in its implementation:
 
 > These are just some of the possible libraries to use for these tasks with Kotlin Multiplatform, and their usage here isn't a strong recommendation for these specific libraries over the available alternatives. You can find a wide variety of curated multiplatform libraries in the [kmp-awesome](https://github.com/terrakok/kmp-awesome) repository.
 
+### License
