@@ -29,3 +29,7 @@ Contributions to this project are welcome! If you encounter any problems or have
 
 ## License
 This project is licensed under the [Apache License 2.0](/LICENSE).
+
+## Collaborators:
+[thinkconverge@gmail.com](thinkconverge@gmail.com)
+
